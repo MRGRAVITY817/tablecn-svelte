@@ -36,7 +36,7 @@
 	{/if}
 	{#if children}
 		{@render children({ table })}
-	{/if}
+	{:else}
 	<div class="overflow-hidden rounded-md border">
 		<Table>
 			<TableHeader>
@@ -88,6 +88,7 @@
 			</TableBody>
 		</Table>
 	</div>
+	{/if}
 	<div class="flex flex-col gap-2.5">
 		<DataTablePagination {table} />
 		{#if actionBar && filteredSelectedRows.length > 0}

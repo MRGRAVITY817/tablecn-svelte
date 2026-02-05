@@ -22,23 +22,29 @@
 </script>
 
 <DropdownMenu.Root>
-	<DropdownMenu.Trigger asChild>
-		<Button variant="outline" size="sm" class="ml-auto hidden h-8 lg:flex">
-			<Settings2 class="mr-2 h-4 w-4" />
-			View
-		</Button>
+	<DropdownMenu.Trigger>
+		{#snippet child({ props })}
+			<Button {...props} variant="outline" size="sm" class="ml-auto hidden h-8 lg:flex">
+				<Settings2 class="mr-2 h-4 w-4" />
+				View
+			</Button>
+		{/snippet}
 	</DropdownMenu.Trigger>
 	<DropdownMenu.Content align="end" class="w-[150px]">
-		<DropdownMenu.Label>Toggle columns</DropdownMenu.Label>
+		<DropdownMenu.Group>
+			<DropdownMenu.Label>Toggle columns</DropdownMenu.Label>
+		</DropdownMenu.Group>
 		<DropdownMenu.Separator />
-		{#each columns as column (column.id)}
-			{@const isVisible = column.getIsVisible()}
-			<DropdownMenu.CheckboxItem
-				checked={isVisible}
-				onCheckedChange={(value) => column.toggleVisibility(!!value)}
-			>
-				{column.id}
-			</DropdownMenu.CheckboxItem>
-		{/each}
+		<DropdownMenu.Group>
+			{#each columns as column (column.id)}
+				{@const isVisible = column.getIsVisible()}
+				<DropdownMenu.CheckboxItem
+					checked={isVisible}
+					onCheckedChange={(value) => column.toggleVisibility(!!value)}
+				>
+					{column.id}
+				</DropdownMenu.CheckboxItem>
+			{/each}
+		</DropdownMenu.Group>
 	</DropdownMenu.Content>
 </DropdownMenu.Root>

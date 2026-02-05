@@ -1,5 +1,5 @@
 import {
-	createSvelteTable,
+	createTable,
 	getCoreRowModel,
 	getFacetedMinMaxValues,
 	getFacetedRowModel,
@@ -15,7 +15,7 @@ import {
 	type TableOptions,
 	type VisibilityState
 } from '@tanstack/svelte-table';
-import { goto } from '$app/navigation';
+import { goto, invalidateAll } from '$app/navigation';
 import { page } from '$app/stores';
 import { get } from 'svelte/store';
 import { parseTableSearchParams, serializeFilters, serializeSorts } from '@/utils/parsers';
@@ -104,14 +104,29 @@ export function useDataTable<TData>(options: UseDataTableOptions<TData>) {
 			url.searchParams.delete(sortKey);
 		}
 
-		// Update filters
+		// Update filters - convert column filters to FilterItem format with operators
 		if (columnFilters.length > 0) {
-			url.searchParams.set(filtersKey, serializeFilters(columnFilters as any));
+			const filtersWithOperators = columnFilters.map((filter) => {
+				const value = filter.value;
+				// Determine operator based on value type
+				let operator = 'eq';
+				if (Array.isArray(value)) {
+					operator = 'inArray';
+				} else if (typeof value === 'string') {
+					operator = 'iLike';
+				}
+				return {
+					id: filter.id,
+					operator,
+					value
+				};
+			});
+			url.searchParams.set(filtersKey, serializeFilters(filtersWithOperators as any));
 		} else {
 			url.searchParams.delete(filtersKey);
 		}
 
-		goto(url.toString(), { replaceState: true, noScroll: true, keepFocus: true });
+		goto(url.toString(), { replaceState: true, noScroll: true, keepFocus: true, invalidateAll: true });
 	}
 
 	// Create table options
@@ -158,7 +173,7 @@ export function useDataTable<TData>(options: UseDataTableOptions<TData>) {
 		manualFiltering: true
 	});
 
-	const table = createSvelteTable(tableOptions);
+	const table = createTable(tableOptions);
 
 	return {
 		table,

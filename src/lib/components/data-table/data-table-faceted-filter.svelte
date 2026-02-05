@@ -50,31 +50,33 @@
 </script>
 
 <Popover.Root bind:open>
-	<Popover.Trigger asChild>
-		<Button variant="outline" size="sm" class="h-8 border-dashed">
-			<PlusCircle class="mr-2 h-4 w-4" />
-			{title}
-			{#if selectedValues.size > 0}
-				<Separator orientation="vertical" class="mx-2 h-4" />
-				<Badge variant="secondary" class="rounded-sm px-1 font-normal lg:hidden">
-					{selectedValues.size}
-				</Badge>
-				<div class="hidden space-x-1 lg:flex">
-					{#if selectedValues.size > 2}
-						<Badge variant="secondary" class="rounded-sm px-1 font-normal">
-							{selectedValues.size} selected
-						</Badge>
-					{:else}
-						{#each Array.from(selectedValues).slice(0, 2) as value}
-							{@const option = options.find((opt) => opt.value === value)}
+	<Popover.Trigger>
+		{#snippet child({ props })}
+			<Button {...props} variant="outline" size="sm" class="h-8 border-dashed">
+				<PlusCircle class="mr-2 h-4 w-4" />
+				{title}
+				{#if selectedValues.size > 0}
+					<Separator orientation="vertical" class="mx-2 h-4" />
+					<Badge variant="secondary" class="rounded-sm px-1 font-normal lg:hidden">
+						{selectedValues.size}
+					</Badge>
+					<div class="hidden space-x-1 lg:flex">
+						{#if selectedValues.size > 2}
 							<Badge variant="secondary" class="rounded-sm px-1 font-normal">
-								{option?.label}
+								{selectedValues.size} selected
 							</Badge>
-						{/each}
-					{/if}
-				</div>
-			{/if}
-		</Button>
+						{:else}
+							{#each Array.from(selectedValues).slice(0, 2) as value}
+								{@const option = options.find((opt) => opt.value === value)}
+								<Badge variant="secondary" class="rounded-sm px-1 font-normal">
+									{option?.label}
+								</Badge>
+							{/each}
+						{/if}
+					</div>
+				{/if}
+			</Button>
+		{/snippet}
 	</Popover.Trigger>
 	<Popover.Content class="w-[200px] p-0" align="start">
 		<Command.Root>
