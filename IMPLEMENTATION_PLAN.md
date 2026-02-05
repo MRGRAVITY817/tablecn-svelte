@@ -259,17 +259,14 @@ interface FilterState {
 
 **1.1 Initialize SvelteKit Project**
 - [x] Create new SvelteKit project with TypeScript using Bun
-  ```bash
-  bun create svelte@latest tablecn-svelte
-  # Select: SvelteKit demo app, TypeScript syntax, add ESLint, Prettier, Playwright, Vitest
-  ```
-- [ ] Configure Tailwind CSS
-- [ ] Set up path aliases (@/ imports)
+- [x] Configure Tailwind CSS
+- [x] Set up path aliases (@/ imports)
 - [ ] Configure ESLint and Prettier
-- [ ] Set up Git repository
-- [ ] Verify Bun compatibility with all dependencies
+- [x] Set up Git repository
+- [x] Verify Bun compatibility with all dependencies
 
 **1.2 Install Dependencies**
+- [x] Installed all dependencies
 ```bash
 bun add -d tailwindcss postcss autoprefixer
 bun add @tanstack/svelte-table
@@ -303,9 +300,9 @@ bun add svelte-sonner # Toast notifications
   - label
 
 **1.4 Base Utilities**
-- [ ] Create `cn()` utility (class name merger)
-- [ ] Create basic type definitions
-- [ ] Set up data-table config file
+- [x] Create `cn()` utility (class name merger)
+- [x] Create basic type definitions
+- [x] Set up data-table config file
 
 **Files to Create:**
 - `src/lib/utils/cn.ts`

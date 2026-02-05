@@ -1,0 +1,12 @@
+<script lang="ts">
+	import { cn } from '@/utils/cn';
+	import type { HTMLAttributes } from 'svelte/elements';
+
+	type Props = HTMLAttributes<HTMLTableSectionElement>;
+
+	let { class: className, ...restProps }: Props = $props();
+</script>
+
+<tbody class={cn('[&_tr:last-child]:border-0', className)} {...restProps}>
+	{@render children?.()}
+</tbody>
