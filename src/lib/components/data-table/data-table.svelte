@@ -1,5 +1,5 @@
 <script lang="ts" generics="TData">
-	import { flexRender, type Table as TanstackTable } from '@tanstack/svelte-table';
+	import { type Table as TanstackTable } from '@tanstack/svelte-table';
 	import {
 		Table,
 		TableBody,
@@ -13,13 +13,14 @@
 	import type { Snippet } from 'svelte';
 	import type { HTMLAttributes } from 'svelte/elements';
 
-	interface Props extends HTMLAttributes<HTMLDivElement> {
+	interface Props {
 		table: TanstackTable<TData>;
 		actionBar?: Snippet<[TanstackTable<TData>]>;
 		children?: Snippet<[TanstackTable<TData>]>;
+		class?: string;
 	}
 
-	let { table, actionBar, children, class: className, ...restProps }: Props = $props();
+	let { table, actionBar, children, class: className }: Props = $props();
 
 	const headerGroups = $derived(table.getHeaderGroups());
 	const rowModel = $derived(table.getRowModel());
@@ -27,7 +28,7 @@
 	const filteredSelectedRows = $derived(table.getFilteredSelectedRowModel().rows);
 </script>
 
-<div class={cn('flex w-full flex-col gap-2.5 overflow-auto', className)} {...restProps}>
+<div class={cn('flex w-full flex-col gap-2.5 overflow-auto', className)}>
 	{#if children}
 		{@render children(table)}
 	{/if}
@@ -37,9 +38,13 @@
 				{#each headerGroups as headerGroup (headerGroup.id)}
 					<TableRow>
 						{#each headerGroup.headers as header (header.id)}
-							<TableHead colSpan={header.colSpan}>
+							<TableHead colspan={header.colSpan}>
 								{#if !header.isPlaceholder}
-									{@render flexRender(header.column.columnDef.header, header.getContext())}
+									{#if typeof header.column.columnDef.header === 'function'}
+										{header.column.columnDef.header(header.getContext())}
+									{:else}
+										{header.column.columnDef.header}
+									{/if}
 								{/if}
 							</TableHead>
 						{/each}
@@ -52,14 +57,18 @@
 						<TableRow data-state={row.getIsSelected() && 'selected'}>
 							{#each row.getVisibleCells() as cell (cell.id)}
 								<TableCell>
-									{@render flexRender(cell.column.columnDef.cell, cell.getContext())}
+									{#if typeof cell.column.columnDef.cell === 'function'}
+										{cell.column.columnDef.cell(cell.getContext())}
+									{:else}
+										{cell.column.columnDef.cell}
+									{/if}
 								</TableCell>
 							{/each}
 						</TableRow>
 					{/each}
 				{:else}
 					<TableRow>
-						<TableCell colSpan={allColumnsLength} class="h-24 text-center">
+						<TableCell colspan={allColumnsLength} class="h-24 text-center">
 							No results.
 						</TableCell>
 					</TableRow>

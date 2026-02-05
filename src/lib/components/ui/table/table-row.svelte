@@ -1,10 +1,13 @@
 <script lang="ts">
 	import { cn } from '@/utils/cn';
+	import type { Snippet } from 'svelte';
 	import type { HTMLAttributes } from 'svelte/elements';
 
-	type Props = HTMLAttributes<HTMLTableRowElement>;
+	interface Props extends HTMLAttributes<HTMLTableRowElement> {
+		children?: Snippet;
+	}
 
-	let { class: className, ...restProps }: Props = $props();
+	let { children, class: className, ...restProps }: Props = $props();
 </script>
 
 <tr

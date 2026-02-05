@@ -14,8 +14,9 @@
 
 	let { table }: Props = $props();
 
-	const pageIndex = $derived(table.getState().pagination.pageIndex);
-	const pageSize = $derived(table.getState().pagination.pageSize);
+	const state = $derived(table.getState());
+	const pageIndex = $derived(state.pagination.pageIndex);
+	const pageSize = $derived(state.pagination.pageSize);
 	const pageCount = $derived(table.getPageCount());
 	const canPreviousPage = $derived(table.getCanPreviousPage());
 	const canNextPage = $derived(table.getCanNextPage());

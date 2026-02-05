@@ -29,6 +29,7 @@ export const filterItemSchema = z.object({
 			z.tuple([z.number(), z.number()]),
 			z.null()
 		])
+		.nullable()
 		.optional()
 });
 

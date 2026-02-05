@@ -279,15 +279,9 @@ bun add svelte-sonner # Toast notifications
 ```
 
 **1.3 shadcn-svelte Setup**
-- [ ] Initialize shadcn-svelte CLI using Bun
-  ```bash
-  bunx shadcn-svelte@latest init
-  ```
-- [ ] Install base UI components:
-  - table
-  - button
+- [x] Created base UI components manually (table, button, checkbox)
+- [ ] Additional UI components needed:
   - input
-  - checkbox
   - select
   - dropdown-menu
   - popover
@@ -512,33 +506,33 @@ bun add svelte-sonner # Toast notifications
 ### Phase 8: Server Integration & Demo (Week 7)
 
 **8.1 Mock Database**
-- [ ] Create mock task schema (Drizzle ORM recommended for Bun compatibility)
-- [ ] Create seed data generator
-- [ ] Set up SQLite database for demo (excellent Bun support)
-- [ ] Note: Drizzle ORM has first-class Bun support; Prisma also works but may need `bun --bun` flag
+- [x] Create mock task schema (using in-memory data for now)
+- [x] Create seed data generator
+- [ ] Set up SQLite database for demo (currently using in-memory)
+- [x] Note: Using in-memory mock data first, can migrate to Drizzle ORM later
 
 **8.2 Server-Side Queries**
-- [ ] Implement server-side filtering logic
-- [ ] Implement server-side sorting logic
-- [ ] Implement server-side pagination logic
-- [ ] Handle join operators (AND/OR)
-- [ ] Handle all filter operators
-- [ ] Optimize query performance
+- [x] Implement server-side filtering logic (basic implementation)
+- [x] Implement server-side sorting logic
+- [x] Implement server-side pagination logic
+- [ ] Handle join operators (AND/OR) - needs filter UI
+- [ ] Handle all filter operators - needs filter UI
+- [x] Basic query performance (in-memory is fast)
 
 **8.3 API Endpoint**
-- [ ] Create `/api/tasks` endpoint
-- [ ] Accept query parameters
-- [ ] Return paginated results
-- [ ] Return total count
-- [ ] Return filter counts (for faceted filters)
+- [x] Using SvelteKit load functions instead of API routes
+- [x] Accept query parameters
+- [x] Return paginated results
+- [x] Return total count
+- [x] Return filter counts (for faceted filters)
 
 **8.4 Demo Page**
-- [ ] Create main demo page
-- [ ] Set up server load function
-- [ ] Define column configuration
-- [ ] Configure filter options
-- [ ] Add example actions (update, delete)
-- [ ] Add demo data seeding
+- [x] Create main demo page
+- [x] Set up server load function
+- [x] Define column configuration
+- [x] Configure filter options in column meta
+- [ ] Add example actions (update, delete) - coming later
+- [x] Demo data seeding working
 
 **Files to Create:**
 - `src/routes/+page.svelte`

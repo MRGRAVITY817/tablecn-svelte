@@ -8,7 +8,7 @@ export function getColumnPinningStyle<TData>({
 }: {
 	column: Column<TData>;
 	withBorder?: boolean;
-}): React.CSSProperties {
+}): Record<string, any> {
 	const isPinned = column.getIsPinned();
 	const isLastLeftPinnedColumn = isPinned === 'left' && column.getIsLastColumn('left');
 	const isFirstRightPinnedColumn = isPinned === 'right' && column.getIsFirstColumn('right');

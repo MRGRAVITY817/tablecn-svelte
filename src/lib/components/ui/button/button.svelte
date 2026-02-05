@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { cn } from '@/utils/cn';
+	import type { Snippet } from 'svelte';
 	import type { HTMLButtonAttributes } from 'svelte/elements';
 	import { type VariantProps, tv } from 'tailwind-variants';
 
@@ -33,11 +34,13 @@
 	interface Props extends HTMLButtonAttributes {
 		variant?: Variant;
 		size?: Size;
+		children?: Snippet;
 	}
 
 	let {
 		variant = 'default',
 		size = 'default',
+		children,
 		class: className,
 		...restProps
 	}: Props = $props();
