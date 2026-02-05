@@ -280,18 +280,18 @@ bun add svelte-sonner # Toast notifications
 
 **1.3 shadcn-svelte Setup**
 - [x] Created base UI components manually (table, button, checkbox)
-- [ ] Additional UI components needed:
-  - input
-  - select
-  - dropdown-menu
-  - popover
-  - calendar
-  - badge
-  - command
-  - slider
-  - separator
-  - skeleton
-  - label
+- [x] Additional UI components created (all with index.ts exports):
+  - [x] input
+  - [x] select
+  - [x] dropdown-menu
+  - [x] popover
+  - [x] calendar
+  - [x] badge
+  - [x] command
+  - [x] slider
+  - [x] separator
+  - [x] skeleton
+  - [x] label
 
 **1.4 Base Utilities**
 - [x] Create `cn()` utility (class name merger)
@@ -366,126 +366,130 @@ bun add svelte-sonner # Toast notifications
 - `src/lib/utils/parsers.ts`
 - `src/lib/utils/data-table.ts`
 
-### Phase 4: Basic Filtering (Week 3)
+### Phase 4: Basic Filtering (Week 3) ✅
 
 **4.1 Data Table Toolbar**
-- [ ] Create `data-table-toolbar.svelte`
-- [ ] Add filter container layout
-- [ ] Add reset filters button
-- [ ] Add spacing and responsive design
+- [x] Create `data-table-toolbar.svelte`
+- [x] Add filter container layout
+- [x] Add reset filters button
+- [x] Add spacing and responsive design
 
 **4.2 Text Filter**
-- [ ] Create inline text input filter
-- [ ] Add placeholder support
-- [ ] Connect to column filter state
-- [ ] Add debounced updates
+- [x] Create standalone text filter component
+- [x] Add placeholder support
+- [x] Connect to column filter state
+- [x] Add debounced updates
+- [x] Add operator support
 
 **4.3 Number Filter**
-- [ ] Create number input filter
-- [ ] Add unit display (e.g., "hrs")
-- [ ] Validate numeric input
-- [ ] Handle empty/cleared state
+- [x] Create standalone number filter component
+- [x] Add unit display (e.g., "hrs")
+- [x] Validate numeric input
+- [x] Handle empty/cleared state
+- [x] Add operator support (including "between")
 
 **4.4 View Options**
-- [ ] Create `data-table-view-options.svelte`
-- [ ] Add column visibility toggles
-- [ ] Add dropdown menu with checkboxes
-- [ ] Persist visibility to localStorage (optional)
+- [x] Create `data-table-view-options.svelte`
+- [x] Add column visibility toggles
+- [x] Add dropdown menu with checkboxes
+- [ ] Persist visibility to localStorage (optional - not implemented)
 
-**Files to Create:**
-- `src/lib/components/data-table/data-table-toolbar.svelte`
-- `src/lib/components/data-table/data-table-view-options.svelte`
+**Files Created:**
+- ✅ `src/lib/components/data-table/data-table-toolbar.svelte`
+- ✅ `src/lib/components/data-table/data-table-view-options.svelte`
+- ✅ `src/lib/components/data-table/data-table-text-filter.svelte`
+- ✅ `src/lib/components/data-table/data-table-number-filter.svelte`
 
-### Phase 5: Advanced Filtering (Week 4)
+### Phase 5: Advanced Filtering (Week 4) ✅
 
 **5.1 Faceted Filter (Select/MultiSelect)**
-- [ ] Create `data-table-faceted-filter.svelte`
-- [ ] Use Command component for search
-- [ ] Display option counts
-- [ ] Support icons per option
-- [ ] Handle single vs multi-select mode
-- [ ] Add "Clear" action
+- [x] Create `data-table-faceted-filter.svelte`
+- [x] Use Command component for search
+- [x] Display option counts
+- [x] Support icons per option
+- [x] Handle multi-select mode
+- [x] Add "Clear" action
 
 **5.2 Date Filter**
-- [ ] Create `data-table-date-filter.svelte`
-- [ ] Integrate calendar component
-- [ ] Support single date and date range modes
-- [ ] Add relative date options (e.g., "Today", "Last 7 days")
-- [ ] Add date operator selector (is, before, after, between)
+- [x] Create `data-table-date-filter.svelte`
+- [x] Integrate calendar component
+- [x] Support single date and date range modes
+- [ ] Add relative date options (e.g., "Today", "Last 7 days") - not implemented
+- [x] Add date operator selector (is, before, after, between)
 
 **5.3 Range/Slider Filter**
-- [ ] Create `data-table-slider-filter.svelte`
-- [ ] Integrate slider component
-- [ ] Display current range values
-- [ ] Support min/max bounds from data
-- [ ] Add unit labels
+- [x] Create `data-table-slider-filter.svelte`
+- [x] Integrate slider component
+- [x] Display current range values
+- [x] Support min/max bounds from data
+- [x] Add unit labels
 
 **5.4 Range Filter (Numeric Inputs)**
-- [ ] Create `data-table-range-filter.svelte`
-- [ ] Add min/max number inputs
-- [ ] Validate range (min <= max)
-- [ ] Add clear functionality
+- [x] Create `data-table-range-filter.svelte`
+- [x] Add min/max number inputs
+- [x] Validate range (min <= max)
+- [x] Add clear functionality
 
-**Files to Create:**
-- `src/lib/components/data-table/data-table-faceted-filter.svelte`
-- `src/lib/components/data-table/data-table-date-filter.svelte`
-- `src/lib/components/data-table/data-table-slider-filter.svelte`
-- `src/lib/components/data-table/data-table-range-filter.svelte`
+**Files Created:**
+- ✅ `src/lib/components/data-table/data-table-faceted-filter.svelte`
+- ✅ `src/lib/components/data-table/data-table-date-filter.svelte`
+- ✅ `src/lib/components/data-table/data-table-slider-filter.svelte`
+- ✅ `src/lib/components/data-table/data-table-range-filter.svelte`
 
-### Phase 6: Advanced Toolbar Components (Week 5)
+### Phase 6: Advanced Toolbar Components (Week 5) ✅
 
 **6.1 Filter List (Notion-style)**
-- [ ] Create `data-table-filter-list.svelte`
-- [ ] Display active filters as badges/cards
-- [ ] Show operator selector per filter
-- [ ] Show value input per filter type
-- [ ] Add remove filter button per filter
-- [ ] Add "Add filter" button
-- [ ] Add join operator toggle (AND/OR)
+- [x] Create `data-table-filter-list.svelte`
+- [x] Display active filters as badges/cards
+- [x] Show operator selector per filter
+- [x] Show value input per filter type
+- [x] Add remove filter button per filter
+- [x] Add "Add filter" button
+- [x] Add join operator toggle (AND/OR)
 
 **6.2 Filter Menu (Linear-style)**
-- [ ] Create `data-table-filter-menu.svelte`
-- [ ] Use Command component for palette UI
-- [ ] Group filters by column
-- [ ] Show operator options per filter type
-- [ ] Support keyboard navigation (Cmd+K style)
-- [ ] Display active filter count badge
+- [x] Create `data-table-filter-menu.svelte`
+- [x] Use Command component for palette UI
+- [x] Group filters by column
+- [x] Show filter variants grouped
+- [x] Support keyboard navigation (Cmd+K style)
+- [x] Display active filter count badge
 
 **6.3 Sort List**
-- [ ] Create `data-table-sort-list.svelte`
-- [ ] Display active sorts as chips
-- [ ] Show sort direction (asc/desc)
-- [ ] Add remove sort button per sort
-- [ ] Add "Add sort" dropdown
-- [ ] Support multi-column sorting
-- [ ] Support drag-to-reorder (optional enhancement)
+- [x] Create `data-table-sort-list.svelte`
+- [x] Display active sorts as chips
+- [x] Show sort direction (asc/desc)
+- [x] Add remove sort button per sort
+- [x] Add "Add sort" dropdown
+- [x] Support multi-column sorting
+- [ ] Support drag-to-reorder (optional - not implemented)
 
 **6.4 Advanced Toolbar Container**
-- [ ] Create `data-table-advanced-toolbar.svelte`
-- [ ] Layout for sort + filter controls
-- [ ] Add responsive design
-- [ ] Add action slot for custom buttons
+- [x] Create `data-table-advanced-toolbar.svelte`
+- [x] Layout for sort + filter controls
+- [x] Add responsive design
+- [x] Add action slot for custom buttons
 
-**Files to Create:**
-- `src/lib/components/data-table/data-table-filter-list.svelte`
-- `src/lib/components/data-table/data-table-filter-menu.svelte`
-- `src/lib/components/data-table/data-table-sort-list.svelte`
-- `src/lib/components/data-table/data-table-advanced-toolbar.svelte`
+**Files Created:**
+- ✅ `src/lib/components/data-table/data-table-filter-list.svelte`
+- ✅ `src/lib/components/data-table/data-table-filter-menu.svelte`
+- ✅ `src/lib/components/data-table/data-table-sort-list.svelte`
+- ✅ `src/lib/components/data-table/data-table-advanced-toolbar.svelte`
 
-### Phase 7: Additional Table Features (Week 6)
+### Phase 7: Additional Table Features (Week 6) ⏳ Partial
 
 **7.1 Column Pinning**
-- [ ] Implement left pinning logic
-- [ ] Implement right pinning logic
-- [ ] Add sticky positioning styles
-- [ ] Add shadow/border for pinned columns
-- [ ] Handle horizontal scroll interactions
+- [ ] Implement left pinning logic (pending)
+- [ ] Implement right pinning logic (pending)
+- [ ] Add sticky positioning styles (pending)
+- [ ] Add shadow/border for pinned columns (pending)
+- [ ] Handle horizontal scroll interactions (pending)
 
-**7.2 Action Bar (Bulk Actions)**
-- [ ] Create action bar component
-- [ ] Show only when rows are selected
-- [ ] Display selected row count
-- [ ] Add slot for custom actions (delete, export, etc.)
+**7.2 Action Bar (Bulk Actions)** ✅
+- [x] Create action bar component
+- [x] Show only when rows are selected
+- [x] Display selected row count
+- [x] Add slot for custom actions (delete, export, etc.)
 - [ ] Add clear selection button
 
 **7.3 Skeleton/Loading States**
