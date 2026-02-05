@@ -9,6 +9,7 @@
 		TableRow
 	} from '@/components/ui/table';
 	import { cn } from '@/utils/cn';
+	import { getPinnedColumnClasses, getPinnedColumnStyles } from '@/utils/column-pinning';
 	import DataTablePagination from './data-table-pagination.svelte';
 	import type { Snippet } from 'svelte';
 	import type { HTMLAttributes } from 'svelte/elements';
@@ -42,7 +43,11 @@
 				{#each headerGroups as headerGroup (headerGroup.id)}
 					<TableRow>
 						{#each headerGroup.headers as header (header.id)}
-							<TableHead colspan={header.colSpan}>
+							<TableHead
+								colspan={header.colSpan}
+								class={getPinnedColumnClasses(header.column)}
+								style={getPinnedColumnStyles(header.column)}
+							>
 								{#if !header.isPlaceholder}
 									{#if typeof header.column.columnDef.header === 'function'}
 										{header.column.columnDef.header(header.getContext())}
@@ -60,7 +65,10 @@
 					{#each rowModel.rows as row (row.id)}
 						<TableRow data-state={row.getIsSelected() && 'selected'}>
 							{#each row.getVisibleCells() as cell (cell.id)}
-								<TableCell>
+								<TableCell
+									class={getPinnedColumnClasses(cell.column)}
+									style={getPinnedColumnStyles(cell.column)}
+								>
 									{#if typeof cell.column.columnDef.cell === 'function'}
 										{cell.column.columnDef.cell(cell.getContext())}
 									{:else}
