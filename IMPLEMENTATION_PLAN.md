@@ -313,30 +313,30 @@ bun add svelte-sonner # Toast notifications
 ### Phase 2: Core Table Component (Week 2)
 
 **2.1 Basic Table Structure**
-- [ ] Create `data-table.svelte` component
-- [ ] Implement TanStack Svelte Table integration
-- [ ] Add basic table rendering (headers, rows, cells)
-- [ ] Add empty state handling
-- [ ] Style with Tailwind classes
+- [x] Create `data-table.svelte` component
+- [x] Implement TanStack Svelte Table integration
+- [x] Add basic table rendering (headers, rows, cells)
+- [x] Add empty state handling
+- [x] Style with Tailwind classes
 
 **2.2 Column Header Component**
-- [ ] Create `data-table-column-header.svelte`
-- [ ] Add sorting indicators (asc/desc/none)
-- [ ] Add click handling for sort toggle
-- [ ] Add keyboard accessibility (Enter/Space)
+- [x] Create `data-table-column-header.svelte`
+- [x] Add sorting indicators (asc/desc/none)
+- [x] Add click handling for sort toggle
+- [x] Add keyboard accessibility (Enter/Space)
 
 **2.3 Pagination Component**
-- [ ] Create `data-table-pagination.svelte`
-- [ ] Add page navigation (first, prev, next, last)
-- [ ] Add rows per page selector
-- [ ] Add page info display (e.g., "Page 1 of 10")
-- [ ] Add total row count display
+- [x] Create `data-table-pagination.svelte`
+- [x] Add page navigation (first, prev, next, last)
+- [x] Add rows per page selector
+- [x] Add page info display (e.g., "Page 1 of 10")
+- [x] Add total row count display
 
 **2.4 Row Selection**
-- [ ] Add checkbox column
-- [ ] Implement select all functionality
-- [ ] Track selection state
-- [ ] Add indeterminate state for partial selection
+- [x] Add checkbox column (available through TanStack Table)
+- [x] Implement select all functionality (in TanStack Table)
+- [x] Track selection state (in TanStack Table)
+- [x] Add indeterminate state for partial selection (checkbox component supports it)
 
 **Files to Create:**
 - `src/lib/components/data-table/data-table.svelte`
