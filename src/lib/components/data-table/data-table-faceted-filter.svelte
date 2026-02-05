@@ -5,8 +5,8 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Badge from '$lib/components/ui/badge/badge.svelte';
 	import Separator from '$lib/components/ui/separator/separator.svelte';
-	import * as Command from '$lib/components/ui/command/command.svelte';
-	import * as Popover from '$lib/components/ui/popover/popover.svelte';
+	import * as Command from '$lib/components/ui/command';
+	import * as Popover from '$lib/components/ui/popover';
 	import type { ComponentType } from 'svelte';
 
 	interface Option {
@@ -50,7 +50,7 @@
 </script>
 
 <Popover.Root bind:open>
-	<Popover.Trigger>
+	<Popover.Trigger asChild>
 		<Button variant="outline" size="sm" class="h-8 border-dashed">
 			<PlusCircle class="mr-2 h-4 w-4" />
 			{title}
@@ -85,6 +85,7 @@
 					{#each options as option (option.value)}
 						{@const isSelected = selectedValues.has(option.value)}
 						{@const count = facets?.get(option.value) || option.count || 0}
+						{@const Icon = option.icon}
 						<Command.Item
 							value={option.value}
 							onSelect={() => toggleOption(option.value)}
@@ -99,8 +100,8 @@
 							>
 								<Check class="h-4 w-4" />
 							</div>
-							{#if option.icon}
-								<svelte:component this={option.icon} class="mr-2 h-4 w-4 text-muted-foreground" />
+							{#if Icon}
+								<Icon class="mr-2 h-4 w-4 text-muted-foreground" />
 							{/if}
 							<span>{option.label}</span>
 							{#if count > 0}

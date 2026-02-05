@@ -1,11 +1,11 @@
 <script lang="ts">
 	import type { Column } from '@tanstack/svelte-table';
 	import { dataTableConfig } from '$lib/config/data-table';
-	import { Button } from '$lib/components/ui/button';
-	import { Calendar } from '$lib/components/ui/calendar';
-	import { Label } from '$lib/components/ui/label';
-	import { Popover, PopoverContent } from '$lib/components/ui/popover';
-	import { Select, SelectContent, SelectItem, SelectTrigger } from '$lib/components/ui/select';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import Calendar from '$lib/components/ui/calendar/calendar.svelte';
+	import Label from '$lib/components/ui/label/label.svelte';
+	import * as Popover from '$lib/components/ui/popover';
+	import * as Select from '$lib/components/ui/select';
 	import { CalendarIcon, X } from 'lucide-svelte';
 	import { format } from 'date-fns';
 
@@ -71,8 +71,9 @@
 	}
 
 	// Handle operator change
-	function handleOperatorChange(value: string) {
-		operator = value as (typeof dataTableConfig.dateOperators)[number]['value'];
+	function handleOperatorChange(value: { value: string; label: string } | undefined) {
+		if (!value) return;
+		operator = value.value as (typeof dataTableConfig.dateOperators)[number]['value'];
 		date1 = undefined;
 		date2 = undefined;
 		updateFilter();
@@ -86,6 +87,11 @@
 	function formatDate(date: Date | undefined): string {
 		return date ? format(date, 'PPP') : 'Pick a date';
 	}
+	
+	// Get current operator label
+	const operatorLabel = $derived(
+		dataTableConfig.dateOperators.find((op) => op.value === operator)?.label ?? ''
+	);
 </script>
 
 <div class="flex flex-col gap-2">
@@ -97,56 +103,63 @@
 
 	<div class="flex items-center gap-2">
 		{#if showOperator}
-			<Select value={operator} onValueChange={handleOperatorChange}>
-				<SelectTrigger class="h-8 w-[180px]">
-					{dataTableConfig.dateOperators.find((op) => op.value === operator)?.label}
-				</SelectTrigger>
-				<SelectContent>
+			<Select.Root
+				selected={{ value: operator, label: operatorLabel }}
+				onSelectedChange={handleOperatorChange}
+			>
+				<Select.Trigger class="h-8 w-[180px]">
+					{operatorLabel}
+				</Select.Trigger>
+				<Select.Content>
 					{#each dataTableConfig.dateOperators as op}
-						<SelectItem value={op.value}>{op.label}</SelectItem>
+						<Select.Item value={op.value}>{op.label}</Select.Item>
 					{/each}
-				</SelectContent>
-			</Select>
+				</Select.Content>
+			</Select.Root>
 		{/if}
 
 		{#if !isDateDisabled}
 			{#if showBetweenDates}
 				<div class="flex items-center gap-2">
-					<Popover bind:open={isPopoverOpen}>
-						<Button
-							variant="outline"
-							class="h-8 w-[140px] justify-start text-left font-normal"
-							disabled={isDateDisabled}
-						>
-							<CalendarIcon class="mr-2 h-4 w-4" />
-							{date1 ? format(date1, 'PP') : 'Start date'}
-						</Button>
-						<PopoverContent class="w-auto p-0" align="start">
+					<Popover.Root bind:open={isPopoverOpen}>
+						<Popover.Trigger asChild>
+							<Button
+								variant="outline"
+								class="h-8 w-[140px] justify-start text-left font-normal"
+								disabled={isDateDisabled}
+							>
+								<CalendarIcon class="mr-2 h-4 w-4" />
+								{date1 ? format(date1, 'PP') : 'Start date'}
+							</Button>
+						</Popover.Trigger>
+						<Popover.Content class="w-auto p-0" align="start">
 							<Calendar
 								value={date1}
 								onValueChange={(d) => handleDateSelect(d, false)}
 							/>
-						</PopoverContent>
-					</Popover>
+						</Popover.Content>
+					</Popover.Root>
 
 					<span class="text-xs text-muted-foreground">to</span>
 
-					<Popover>
-						<Button
-							variant="outline"
-							class="h-8 w-[140px] justify-start text-left font-normal"
-							disabled={isDateDisabled}
-						>
-							<CalendarIcon class="mr-2 h-4 w-4" />
-							{date2 ? format(date2, 'PP') : 'End date'}
-						</Button>
-						<PopoverContent class="w-auto p-0" align="start">
+					<Popover.Root>
+						<Popover.Trigger asChild>
+							<Button
+								variant="outline"
+								class="h-8 w-[140px] justify-start text-left font-normal"
+								disabled={isDateDisabled}
+							>
+								<CalendarIcon class="mr-2 h-4 w-4" />
+								{date2 ? format(date2, 'PP') : 'End date'}
+							</Button>
+						</Popover.Trigger>
+						<Popover.Content class="w-auto p-0" align="start">
 							<Calendar
 								value={date2}
 								onValueChange={(d) => handleDateSelect(d, true)}
 							/>
-						</PopoverContent>
-					</Popover>
+						</Popover.Content>
+					</Popover.Root>
 
 					{#if (date1 || date2)}
 						<Button
@@ -161,23 +174,25 @@
 				</div>
 			{:else}
 				<div class="flex items-center gap-2">
-					<Popover bind:open={isPopoverOpen}>
-						<Button
-							id={`filter-${column.id}`}
-							variant="outline"
-							class="h-8 w-[200px] justify-start text-left font-normal"
-							disabled={isDateDisabled}
-						>
-							<CalendarIcon class="mr-2 h-4 w-4" />
-							{formatDate(date1)}
-						</Button>
-						<PopoverContent class="w-auto p-0" align="start">
+					<Popover.Root bind:open={isPopoverOpen}>
+						<Popover.Trigger asChild>
+							<Button
+								id={`filter-${column.id}`}
+								variant="outline"
+								class="h-8 w-[200px] justify-start text-left font-normal"
+								disabled={isDateDisabled}
+							>
+								<CalendarIcon class="mr-2 h-4 w-4" />
+								{formatDate(date1)}
+							</Button>
+						</Popover.Trigger>
+						<Popover.Content class="w-auto p-0" align="start">
 							<Calendar
 								value={date1}
 								onValueChange={(d) => handleDateSelect(d, false)}
 							/>
-						</PopoverContent>
-					</Popover>
+						</Popover.Content>
+					</Popover.Root>
 
 					{#if date1}
 						<Button

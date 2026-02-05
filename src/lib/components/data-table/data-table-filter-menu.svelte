@@ -1,17 +1,9 @@
 <script lang="ts">
 	import type { Table } from '@tanstack/svelte-table';
-	import { Badge } from '$lib/components/ui/badge';
-	import { Button } from '$lib/components/ui/button';
-	import {
-		Command,
-		CommandEmpty,
-		CommandGroup,
-		CommandInput,
-		CommandItem,
-		CommandList,
-		CommandSeparator
-	} from '$lib/components/ui/command';
-	import { Popover, PopoverContent } from '$lib/components/ui/popover';
+	import Badge from '$lib/components/ui/badge/badge.svelte';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import * as Command from '$lib/components/ui/command';
+	import * as Popover from '$lib/components/ui/popover';
 	import { Filter } from 'lucide-svelte';
 	import type { FilterVariant } from '$lib/types/data-table';
 
@@ -89,36 +81,38 @@
 	});
 </script>
 
-<Popover bind:open={isOpen}>
-	<Button
-		variant="outline"
-		size="sm"
-		class="h-8 border-dashed"
-		onclick={() => (isOpen = !isOpen)}
-	>
-		<Filter class="mr-2 h-4 w-4" />
-		Filter
-		{#if activeFilterCount > 0}
-			<Badge variant="secondary" class="ml-2 rounded-sm px-1 font-normal">
-				{activeFilterCount}
-			</Badge>
-		{/if}
-	</Button>
-	<PopoverContent class="w-[300px] p-0" align="start">
-		<Command>
-			<CommandInput placeholder="Search filters..." />
-			<CommandList>
-				<CommandEmpty>No filters found.</CommandEmpty>
+<Popover.Root bind:open={isOpen}>
+	<Popover.Trigger asChild>
+		<Button
+			variant="outline"
+			size="sm"
+			class="h-8 border-dashed"
+		>
+			<Filter class="mr-2 h-4 w-4" />
+			Filter
+			{#if activeFilterCount > 0}
+				<Badge variant="secondary" class="ml-2 rounded-sm px-1 font-normal">
+					{activeFilterCount}
+				</Badge>
+			{/if}
+		</Button>
+	</Popover.Trigger>
+	<Popover.Content class="w-[300px] p-0" align="start">
+		<Command.Root>
+			<Command.Input placeholder="Search filters..." />
+			<Command.List>
+				<Command.Empty>No filters found.</Command.Empty>
 				{#each columnsByVariant() as [variantName, columns], groupIndex}
 					{#if groupIndex > 0}
-						<CommandSeparator />
+						<Command.Separator />
 					{/if}
-					<CommandGroup heading={variantName.charAt(0).toUpperCase() + variantName.slice(1)}>
+					<Command.Group heading={variantName.charAt(0).toUpperCase() + variantName.slice(1)}>
 						{#each columns as column}
 							{@const isActive = table.getColumn(column.id)?.getFilterValue() !== undefined}
-							<CommandItem onSelect={() => handleFilterSelect(column.id)}>
-								{#if column.icon}
-									<svelte:component this={column.icon} class="mr-2 h-4 w-4" />
+							{@const Icon = column.icon}
+							<Command.Item onSelect={() => handleFilterSelect(column.id)}>
+								{#if Icon}
+									<Icon class="mr-2 h-4 w-4" />
 								{/if}
 								<span>{column.label}</span>
 								{#if isActive}
@@ -126,19 +120,19 @@
 										Active
 									</Badge>
 								{/if}
-							</CommandItem>
+							</Command.Item>
 						{/each}
-					</CommandGroup>
+					</Command.Group>
 				{/each}
 				{#if activeFilterCount > 0}
-					<CommandSeparator />
-					<CommandGroup>
-						<CommandItem onSelect={clearAllFilters}>
+					<Command.Separator />
+					<Command.Group>
+						<Command.Item onSelect={clearAllFilters}>
 							<span class="text-destructive">Clear all filters</span>
-						</CommandItem>
-					</CommandGroup>
+						</Command.Item>
+					</Command.Group>
 				{/if}
-			</CommandList>
-		</Command>
-	</PopoverContent>
-</Popover>
+			</Command.List>
+		</Command.Root>
+	</Popover.Content>
+</Popover.Root>

@@ -1,6 +1,13 @@
 <script lang="ts">
 	import Skeleton from '$lib/components/ui/skeleton/skeleton.svelte';
-	import * as Table from '$lib/components/ui/table/table.svelte';
+	import {
+		Table,
+		TableBody,
+		TableCell,
+		TableHead,
+		TableHeader,
+		TableRow
+	} from '$lib/components/ui/table';
 
 	interface Props {
 		columnCount?: number;
@@ -37,28 +44,28 @@
 
 	<!-- Table skeleton -->
 	<div class="rounded-md border">
-		<Table.Root>
-			<Table.Header>
-				<Table.Row>
+		<Table>
+			<TableHeader>
+				<TableRow>
 					{#each Array(columnCount) as _, i (i)}
-						<Table.Head>
+						<TableHead>
 							<Skeleton class="h-6 w-full" />
-						</Table.Head>
+						</TableHead>
 					{/each}
-				</Table.Row>
-			</Table.Header>
-			<Table.Body>
+				</TableRow>
+			</TableHeader>
+			<TableBody>
 				{#each Array(rowCount) as _, i (i)}
-					<Table.Row>
+					<TableRow>
 						{#each Array(columnCount) as _, j (j)}
-							<Table.Cell>
+							<TableCell>
 								<Skeleton class="h-6 w-full" />
-							</Table.Cell>
+							</TableCell>
 						{/each}
-					</Table.Row>
+					</TableRow>
 				{/each}
-			</Table.Body>
-		</Table.Root>
+			</TableBody>
+		</Table>
 	</div>
 
 	<!-- Pagination skeleton -->

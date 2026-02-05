@@ -3,7 +3,7 @@
 	import { dataTableConfig } from '$lib/config/data-table';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
-	import { Select, SelectContent, SelectItem, SelectTrigger } from '$lib/components/ui/select';
+	import * as Select from '$lib/components/ui/select';
 	import { X } from 'lucide-svelte';
 	import { Button } from '$lib/components/ui/button';
 
@@ -50,8 +50,9 @@
 	}
 
 	// Handle operator change
-	function handleOperatorChange(value: string) {
-		operator = value as (typeof dataTableConfig.textOperators)[number]['value'];
+	function handleOperatorChange(value: { value: string; label: string } | undefined) {
+		if (!value) return;
+		operator = value.value as (typeof dataTableConfig.textOperators)[number]['value'];
 
 		// If operator is isEmpty or isNotEmpty, clear the input and set filter
 		if (operator === 'isEmpty' || operator === 'isNotEmpty') {
@@ -65,6 +66,11 @@
 
 	// Check if input should be disabled (for isEmpty/isNotEmpty)
 	const isInputDisabled = $derived(operator === 'isEmpty' || operator === 'isNotEmpty');
+	
+	// Get current operator label
+	const operatorLabel = $derived(
+		dataTableConfig.textOperators.find((op) => op.value === operator)?.label ?? ''
+	);
 </script>
 
 <div class="flex flex-col gap-2">
@@ -76,16 +82,19 @@
 
 	<div class="flex items-center gap-2">
 		{#if showOperator}
-			<Select value={operator} onValueChange={handleOperatorChange}>
-				<SelectTrigger class="h-8 w-[140px]">
-					{dataTableConfig.textOperators.find((op) => op.value === operator)?.label}
-				</SelectTrigger>
-				<SelectContent>
+			<Select.Root
+				selected={{ value: operator, label: operatorLabel }}
+				onSelectedChange={handleOperatorChange}
+			>
+				<Select.Trigger class="h-8 w-[140px]">
+					{operatorLabel}
+				</Select.Trigger>
+				<Select.Content>
 					{#each dataTableConfig.textOperators as op}
-						<SelectItem value={op.value}>{op.label}</SelectItem>
+						<Select.Item value={op.value}>{op.label}</Select.Item>
 					{/each}
-				</SelectContent>
-			</Select>
+				</Select.Content>
+			</Select.Root>
 		{/if}
 
 		<div class="relative flex-1">

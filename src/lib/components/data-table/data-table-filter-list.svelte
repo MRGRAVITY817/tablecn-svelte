@@ -3,7 +3,7 @@
 	import { dataTableConfig } from '$lib/config/data-table';
 	import { Badge } from '$lib/components/ui/badge';
 	import { Button } from '$lib/components/ui/button';
-	import { Select, SelectContent, SelectItem, SelectTrigger } from '$lib/components/ui/select';
+	import * as Select from '$lib/components/ui/select';
 	import { Separator } from '$lib/components/ui/separator';
 	import { Plus, X } from 'lucide-svelte';
 	import type { FilterItem, FilterOperator, FilterVariant } from '$lib/types/data-table';
@@ -175,42 +175,48 @@
 			{#each filters as filter, index (index)}
 				{@const column = filterableColumns.find((c) => c.id === filter.id)}
 				{@const operators = column ? getOperatorsForVariant(column.variant) : []}
+				{@const columnLabel = column?.label ?? filter.id}
+				{@const operatorLabel = operators.find((op) => op.value === filter.operator)?.label ?? filter.operator}
 				<div class="flex items-center gap-2 rounded-lg border p-3">
-					<Select
-						value={filter.id}
-						onValueChange={(value) =>
+					<Select.Root
+						selected={{ value: filter.id, label: columnLabel }}
+						onSelectedChange={(value: { value: string; label: string } | undefined) => {
+							if (!value) return;
 							updateFilter(index, {
-								id: value,
+								id: value.value,
 								operator: getDefaultOperator(
-									filterableColumns.find((c) => c.id === value)?.variant ?? 'text'
+									filterableColumns.find((c) => c.id === value.value)?.variant ?? 'text'
 								),
 								value: undefined
-							})}
+							});
+						}}
 					>
-						<SelectTrigger class="h-8 w-[140px]">
-							{column?.label ?? filter.id}
-						</SelectTrigger>
-						<SelectContent>
+						<Select.Trigger class="h-8 w-[140px]">
+							{columnLabel}
+						</Select.Trigger>
+						<Select.Content>
 							{#each filterableColumns as col}
-								<SelectItem value={col.id}>{col.label}</SelectItem>
+								<Select.Item value={col.id}>{col.label}</Select.Item>
 							{/each}
-						</SelectContent>
-					</Select>
+						</Select.Content>
+					</Select.Root>
 
-					<Select
-						value={filter.operator}
-						onValueChange={(value) =>
-							updateFilter(index, { operator: value as FilterOperator })}
+					<Select.Root
+						selected={{ value: filter.operator, label: operatorLabel }}
+						onSelectedChange={(value: { value: string; label: string } | undefined) => {
+							if (!value) return;
+							updateFilter(index, { operator: value.value as FilterOperator });
+						}}
 					>
-						<SelectTrigger class="h-8 w-[160px]">
-							{operators.find((op) => op.value === filter.operator)?.label ?? filter.operator}
-						</SelectTrigger>
-						<SelectContent>
+						<Select.Trigger class="h-8 w-[160px]">
+							{operatorLabel}
+						</Select.Trigger>
+						<Select.Content>
 							{#each operators as op}
-								<SelectItem value={op.value}>{op.label}</SelectItem>
+								<Select.Item value={op.value}>{op.label}</Select.Item>
 							{/each}
-						</SelectContent>
-					</Select>
+						</Select.Content>
+					</Select.Root>
 
 					{#if filter.operator !== 'isEmpty' && filter.operator !== 'isNotEmpty'}
 						<input

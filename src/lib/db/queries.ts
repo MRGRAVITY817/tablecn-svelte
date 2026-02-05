@@ -37,10 +37,16 @@ function applyFilter(task: Task, filter: FilterItem): boolean {
 			return Number(value) >= Number(filter.value);
 
 		case 'inArray': // In array
-			return Array.isArray(filter.value) && filter.value.includes(String(value));
+			return (
+				Array.isArray(filter.value) &&
+				(filter.value as string[]).includes(String(value))
+			);
 
 		case 'notInArray': // Not in array
-			return Array.isArray(filter.value) && !filter.value.includes(String(value));
+			return (
+				Array.isArray(filter.value) &&
+				!(filter.value as string[]).includes(String(value))
+			);
 
 		case 'isBetween': // Between (for numbers and dates)
 			if (Array.isArray(filter.value) && filter.value.length === 2) {

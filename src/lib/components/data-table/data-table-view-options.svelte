@@ -2,7 +2,7 @@
 	import type { Table } from '@tanstack/svelte-table';
 	import { Settings2 } from 'lucide-svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
-	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/dropdown-menu.svelte';
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 
 	interface Props {
 		table: Table<any>;
@@ -22,7 +22,7 @@
 </script>
 
 <DropdownMenu.Root>
-	<DropdownMenu.Trigger>
+	<DropdownMenu.Trigger asChild>
 		<Button variant="outline" size="sm" class="ml-auto hidden h-8 lg:flex">
 			<Settings2 class="mr-2 h-4 w-4" />
 			View

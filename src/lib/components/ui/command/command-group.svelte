@@ -12,7 +12,6 @@
 </script>
 
 <CommandPrimitive.Group
-	{heading}
 	{...restProps}
 	class={cn(
 		'overflow-hidden p-1 text-foreground',
@@ -20,5 +19,8 @@
 		className
 	)}
 >
+	{#if heading}
+		<div data-command-group-heading>{heading}</div>
+	{/if}
 	{@render children?.()}
 </CommandPrimitive.Group>

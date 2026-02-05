@@ -1,7 +1,2 @@
-import Popover from './popover.svelte';
-import PopoverContent from './popover-content.svelte';
-
-export {
-	Popover,
-	PopoverContent,
-};
+import * as Popover from './popover.svelte';
+export { Popover };

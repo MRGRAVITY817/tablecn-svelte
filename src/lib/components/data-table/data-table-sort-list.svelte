@@ -2,7 +2,7 @@
 	import type { Table } from '@tanstack/svelte-table';
 	import { Badge } from '$lib/components/ui/badge';
 	import { Button } from '$lib/components/ui/button';
-	import { Select, SelectContent, SelectItem, SelectTrigger } from '$lib/components/ui/select';
+	import * as Select from '$lib/components/ui/select';
 	import { ArrowDown, ArrowUp, Plus, X } from 'lucide-svelte';
 	import type { ColumnSort } from '@tanstack/svelte-table';
 
@@ -89,19 +89,21 @@
 				{@const columnLabel =
 					sortableColumns.find((c) => c.id === sort.id)?.label ?? sort.id}
 				<Badge variant="outline" class="h-7 gap-2 pl-3 pr-1">
-					<Select
-						value={sort.id}
-						onValueChange={(value) => updateSortColumn(index, value)}
+					<Select.Root
+						selected={{ value: sort.id, label: columnLabel }}
+						onSelectedChange={(value: { value: string; label: string } | undefined) => {
+							if (value) updateSortColumn(index, value.value);
+						}}
 					>
-						<SelectTrigger class="h-5 border-0 p-0 text-xs font-normal shadow-none">
+						<Select.Trigger class="h-5 border-0 p-0 text-xs font-normal shadow-none">
 							{columnLabel}
-						</SelectTrigger>
-						<SelectContent>
+						</Select.Trigger>
+						<Select.Content>
 							{#each sortableColumns as col}
-								<SelectItem value={col.id}>{col.label}</SelectItem>
+								<Select.Item value={col.id}>{col.label}</Select.Item>
 							{/each}
-						</SelectContent>
-					</Select>
+						</Select.Content>
+					</Select.Root>
 
 					<Button
 						variant="ghost"

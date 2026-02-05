@@ -44,7 +44,7 @@
 			{/if}
 		</div>
 
-		<div class="h-6 w-px bg-border" />
+		<div class="h-6 w-px bg-border"></div>
 
 		<div class="flex items-center gap-2">
 			{@render children?.()}
