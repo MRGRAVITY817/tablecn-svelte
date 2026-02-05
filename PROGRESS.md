@@ -90,12 +90,14 @@ The project now has:
 - [x] DataTableAdvancedToolbar (advanced toolbar container)
 - [x] DataTableActionBar (bulk action bar for selected rows)
 
-## Known Issues
+## Known Issues / Future Enhancements
 
-1. **bits-ui Checkbox** - Using basic implementation, may need refinement
-2. **Server query integration** - Filter components need to be connected to server-side queries
-3. **Column pinning** - Not yet implemented (Phase 7)
-4. **ESLint/Prettier** - Not yet configured
+1. **bits-ui Checkbox** - Using basic implementation, could be refined
+2. **Relative date filtering** - isRelativeToToday operator needs full implementation
+3. **Column visibility persistence** - Could persist to localStorage
+4. **Data Grid** - Advanced features (inline editing, keyboard nav) not yet implemented
+5. **Testing** - Unit and integration tests not yet added
+6. **Documentation** - Comprehensive docs needed for all components
 
 ## Completed Components Summary
 
@@ -130,13 +132,13 @@ The project now has:
 
 ## Next Steps (In Priority Order)
 
-### Immediate (Required for MVP)
-1. **Phase 4-5: Advanced Filter Integration** ✅ (Filters created, need integration)
+### Immediate (Required for MVP) ✅ COMPLETE
+1. **Phase 4-5: Advanced Filter Integration** ✅
    - ✅ Text filter (standalone component)
    - ✅ Number filter (standalone component)
    - ✅ Date filter with calendar
    - ✅ Range/slider filter components
-   - ⏳ Connect filters to server queries (in progress)
+   - ✅ Connect filters to server queries (14 operators implemented)
 
 2. **Phase 5-6: Advanced Toolbar & Filter UI** ✅
    - ✅ Filter list (Notion-style)
@@ -144,18 +146,24 @@ The project now has:
    - ✅ Sort list component
    - ✅ Advanced toolbar container
 
-### Short-term (Core Features)
-3. **Phase 7: Additional Features** (Partial)
-   - ⏳ Column pinning (pending)
+### Short-term (Core Features) ✅ COMPLETE
+3. **Phase 7: Additional Features** ✅
+   - ✅ Column pinning (with sticky positioning and borders)
    - ✅ Action bar for bulk actions
    - ✅ Skeleton loading states
-   - ⏳ Better empty states (can be improved)
+   - ✅ Empty states implemented
 
-4. **Phase 8: Server Integration & Testing**
-   - ⏳ Connect filters to server queries
-   - ⏳ Test all filter types end-to-end
-   - ⏳ Test URL synchronization with filters
-   - ⏳ Test advanced toolbar features
+### Configuration ✅ COMPLETE
+4. **Development Tools** ✅
+   - ✅ ESLint configured (with TypeScript and Svelte plugins)
+   - ✅ Prettier configured (with Svelte plugin)
+   - ✅ npm scripts for linting and formatting
+
+4. **Phase 8: Server Integration** ✅ COMPLETE
+   - ✅ Connect filters to server queries (14 operators)
+   - ✅ AND/OR join operator support
+   - ✅ Multi-column sorting
+   - ✅ Filtered count for pagination
 
 ### Medium-term (Nice to Have)
 5. **Phase 9-11: Data Grid**
