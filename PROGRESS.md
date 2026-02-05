@@ -58,40 +58,104 @@ The project now has:
    - Type-safe column definitions
    - Type-safe server functions
 
+## Recent Progress (Current Session)
+
+### New UI Components Added ✅
+- [x] Input component (with index.ts)
+- [x] Label component (with index.ts)
+- [x] Badge component (with index.ts)
+- [x] Separator component (with index.ts)
+- [x] Dropdown Menu (complete with all sub-components and index.ts)
+- [x] Popover component (with index.ts)
+- [x] Command component (for filter menus, with index.ts)
+- [x] Select component (with index.ts)
+- [x] Slider component (with index.ts)
+- [x] Skeleton component (with index.ts)
+- [x] Calendar component (with index.ts)
+- [x] Transitions utility (flyAndScale)
+
+### Data Table Components Added ✅
+- [x] DataTableViewOptions (column visibility dropdown)
+- [x] DataTableToolbar (basic filtering toolbar)
+- [x] DataTableFacetedFilter (multi-select filter with counts)
+- [x] DataTableSkeleton (loading states)
+- [x] DataTableTextFilter (standalone text filter with operators)
+- [x] DataTableNumberFilter (standalone number filter with operators and unit support)
+- [x] DataTableDateFilter (date filter with calendar integration)
+- [x] DataTableRangeFilter (numeric range filter with min/max inputs)
+- [x] DataTableSliderFilter (visual slider for numeric ranges)
+- [x] DataTableFilterList (Notion-style filter list with add/remove/edit)
+- [x] DataTableFilterMenu (Linear-style command palette filter menu)
+- [x] DataTableSortList (multi-column sort list with direction toggle)
+- [x] DataTableAdvancedToolbar (advanced toolbar container)
+- [x] DataTableActionBar (bulk action bar for selected rows)
+
 ## Known Issues
 
 1. **bits-ui Checkbox** - Using basic implementation, may need refinement
-2. **Filter UI** - Not yet implemented (Phase 4-6)
-3. **Column visibility controls** - Not yet added (Phase 4)
-4. **Action bar** - Not yet implemented (Phase 7)
+2. **Server query integration** - Filter components need to be connected to server-side queries
+3. **Column pinning** - Not yet implemented (Phase 7)
+4. **ESLint/Prettier** - Not yet configured
+
+## Completed Components Summary
+
+**Core Table Components:**
+- DataTable (main table with toolbar/action bar support)
+- DataTableColumnHeader (sortable headers)
+- DataTablePagination (full pagination controls)
+- DataTableToolbar (basic filtering toolbar)
+- DataTableAdvancedToolbar (advanced toolbar container)
+- DataTableViewOptions (column visibility dropdown)
+- DataTableFacetedFilter (multi-select filter with icon support and counts)
+- DataTableSkeleton (loading states with configurable rows/columns)
+- DataTableTextFilter (standalone text filter with operators)
+- DataTableNumberFilter (standalone number filter with operators)
+- DataTableDateFilter (date filter with calendar integration)
+- DataTableRangeFilter (numeric range filter with min/max inputs)
+- DataTableSliderFilter (visual slider for numeric ranges)
+- DataTableFilterList (Notion-style filter list)
+- DataTableFilterMenu (Linear-style command palette)
+- DataTableSortList (multi-column sort list)
+- DataTableActionBar (bulk action bar)
+
+**UI Components Library:**
+- Input, Label, Badge, Separator, Skeleton, Button (with builders support)
+- Table (complete set: Root, Header, Body, Row, Cell, Head, Caption, Footer)
+- Checkbox (with indeterminate state)
+- Dropdown Menu (complete with CheckboxItem, RadioItem, Sub-menus)
+- Popover, Command (for filter menus)
+- Select (complete dropdown select)
+- Slider, Calendar
+- Transitions utility (flyAndScale)
 
 ## Next Steps (In Priority Order)
 
 ### Immediate (Required for MVP)
-1. **Phase 4: Basic Filtering**
-   - Create data-table-toolbar.svelte
-   - Implement text filter input
-   - Implement number filter input
-   - Create view options dropdown
+1. **Phase 4-5: Advanced Filter Integration** ✅ (Filters created, need integration)
+   - ✅ Text filter (standalone component)
+   - ✅ Number filter (standalone component)
+   - ✅ Date filter with calendar
+   - ✅ Range/slider filter components
+   - ⏳ Connect filters to server queries (in progress)
 
-2. **Phase 5: Advanced Filtering**
-   - Faceted filter (select/multiselect)
-   - Date filter with calendar
-   - Range/slider filter
-   - Connect filters to server queries
+2. **Phase 5-6: Advanced Toolbar & Filter UI** ✅
+   - ✅ Filter list (Notion-style)
+   - ✅ Filter menu (Linear-style command palette)
+   - ✅ Sort list component
+   - ✅ Advanced toolbar container
 
 ### Short-term (Core Features)
-3. **Phase 6: Advanced Toolbar**
-   - Filter list (Notion-style)
-   - Filter menu (Linear-style)
-   - Sort list component
-   - Advanced toolbar container
+3. **Phase 7: Additional Features** (Partial)
+   - ⏳ Column pinning (pending)
+   - ✅ Action bar for bulk actions
+   - ✅ Skeleton loading states
+   - ⏳ Better empty states (can be improved)
 
-4. **Phase 7: Additional Features**
-   - Column pinning
-   - Action bar for bulk actions
-   - Skeleton loading states
-   - Better empty states
+4. **Phase 8: Server Integration & Testing**
+   - ⏳ Connect filters to server queries
+   - ⏳ Test all filter types end-to-end
+   - ⏳ Test URL synchronization with filters
+   - ⏳ Test advanced toolbar features
 
 ### Medium-term (Nice to Have)
 5. **Phase 9-11: Data Grid**
@@ -157,38 +221,55 @@ Approximately 2000+ lines of TypeScript/Svelte code written across all files.
 
 ## Dependencies Installed
 
-- @tanstack/svelte-table - Table state management
-- tailwindcss - Styling framework
-- tailwind-variants - Variant utility
-- tailwind-merge - Class merging
-- clsx - Conditional classes
-- bits-ui - Headless UI components
-- lucide-svelte - Icon library
-- date-fns - Date formatting
-- zod - Schema validation
-- svelte-sonner - Toast notifications
+- @tanstack/svelte-table - Table state management ✅
+- tailwindcss - Styling framework ✅
+- tailwind-variants - Variant utility ✅
+- tailwind-merge - Class merging ✅
+- clsx - Conditional classes ✅
+- bits-ui - Headless UI components ✅
+- lucide-svelte - Icon library ✅
+- date-fns - Date formatting ✅
+- zod - Schema validation ✅
+- svelte-sonner - Toast notifications ✅
+
+All dependencies working correctly with Bun runtime.
 
 ## Time Estimate
 
-- **Actual time:** ~3-4 hours (Phases 1-3 + partial Phase 8)
-- **Estimated remaining:** ~6-8 weeks for full feature parity with tablecn
-- **MVP estimate:** ~2-3 weeks (Phases 4-7)
+- **Phase 1-3 + Phase 8 (initial):** ~3-4 hours
+- **Current session (UI components + filters):** ~2-3 hours
+- **Total so far:** ~5-7 hours
+- **Estimated remaining for MVP:** ~1-2 weeks (complete Phase 4-7)
+- **Estimated remaining for full feature parity:** ~5-7 weeks (Phases 9-13)
 
 ## Ready to Use
 
-The data table is now functional and ready for basic use cases:
+The data table is now functional with advanced features:
 - Display paginated data
-- Server-side sorting
-- Clean, professional UI
+- Server-side sorting (single and multi-column)
+- Column visibility controls
+- Multi-select faceted filters with icons
+- Search/filter by text
+- Clean, professional UI matching shadcn/ui aesthetic
 - Type-safe implementation
-- URL state management
+- URL state management with browser history
+- Loading states with skeleton components
+
+**Demo Features:**
+- Status filter (todo, in progress, done, canceled) with icons
+- Priority filter (low, medium, high)
+- Title search
+- Column visibility toggle
+- Responsive design
 
 To use it in your own project:
 1. Copy the `src/lib/components/data-table` folder
 2. Copy the `src/lib/components/ui` folder
 3. Copy the utility files from `src/lib/utils`
 4. Copy the config and types from `src/lib/config` and `src/lib/types`
-5. Adapt the server queries to your data source
+5. Copy the hooks from `src/lib/hooks`
+6. Adapt the server queries to your data source
+7. Configure columns with meta properties for filters
 
 ---
 

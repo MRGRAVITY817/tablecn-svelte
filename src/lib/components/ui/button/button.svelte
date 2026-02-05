@@ -35,17 +35,32 @@
 		variant?: Variant;
 		size?: Size;
 		children?: Snippet;
+		builders?: any[];
 	}
 
 	let {
 		variant = 'default',
 		size = 'default',
 		children,
+		builders = [],
 		class: className,
 		...restProps
 	}: Props = $props();
+
+	// Merge builder props
+	let builderProps = $derived(
+		builders.length > 0 && builders[0]
+			? Object.fromEntries(
+					Object.entries(builders[0]).filter(([key]) => key !== 'action')
+				)
+			: {}
+	);
 </script>
 
-<button class={cn(buttonVariants({ variant, size }), className)} {...restProps}>
+<button
+	class={cn(buttonVariants({ variant, size }), className)}
+	{...builderProps}
+	{...restProps}
+>
 	{@render children?.()}
 </button>

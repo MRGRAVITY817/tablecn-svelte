@@ -1,10 +1,16 @@
 <script lang="ts">
-	import { DataTable, DataTableColumnHeader } from '@/components/data-table';
+	import {
+		DataTable,
+		DataTableColumnHeader,
+		DataTableToolbar,
+		DataTableFacetedFilter
+	} from '@/components/data-table';
 	import { Checkbox } from '@/components/ui/checkbox';
 	import { useDataTable } from '@/hooks/use-data-table.svelte';
 	import { formatDate } from '@/utils/format';
 	import type { Task } from '$lib/db/schema';
 	import type { ColumnDef } from '@tanstack/svelte-table';
+	import { CircleDot, Circle, CheckCircle, XCircle } from 'lucide-svelte';
 
 	interface Props {
 		data: {
@@ -52,11 +58,14 @@
 				label: 'Status',
 				variant: 'select',
 				options: [
-					{ label: 'Todo', value: 'todo' },
-					{ label: 'In Progress', value: 'in_progress' },
-					{ label: 'Done', value: 'done' },
-					{ label: 'Canceled', value: 'canceled' }
+					{ label: 'Todo', value: 'todo', icon: Circle },
+					{ label: 'In Progress', value: 'in_progress', icon: CircleDot },
+					{ label: 'Done', value: 'done', icon: CheckCircle },
+					{ label: 'Canceled', value: 'canceled', icon: XCircle }
 				]
+			},
+			filterFn: (row, id, value) => {
+				return value.includes(row.getValue(id));
 			}
 		},
 		{
@@ -72,6 +81,9 @@
 					{ label: 'Medium', value: 'medium' },
 					{ label: 'High', value: 'high' }
 				]
+			},
+			filterFn: (row, id, value) => {
+				return value.includes(row.getValue(id));
 			}
 		},
 		{
@@ -114,5 +126,36 @@
 		<p class="text-muted-foreground">A demo of the data table component with server-side features.</p>
 	</div>
 
-	<DataTable table={$table} />
+	<DataTable table={$table}>
+		{#snippet toolbar({ table })}
+			<DataTableToolbar
+				{table}
+				filterableColumns={[{ id: 'title', title: 'Title', placeholder: 'Filter tasks...' }]}
+			>
+				{#if table.getColumn('status')}
+					<DataTableFacetedFilter
+						column={table.getColumn('status')}
+						title="Status"
+						options={[
+							{ label: 'Todo', value: 'todo', icon: Circle },
+							{ label: 'In Progress', value: 'in_progress', icon: CircleDot },
+							{ label: 'Done', value: 'done', icon: CheckCircle },
+							{ label: 'Canceled', value: 'canceled', icon: XCircle }
+						]}
+					/>
+				{/if}
+				{#if table.getColumn('priority')}
+					<DataTableFacetedFilter
+						column={table.getColumn('priority')}
+						title="Priority"
+						options={[
+							{ label: 'Low', value: 'low' },
+							{ label: 'Medium', value: 'medium' },
+							{ label: 'High', value: 'high' }
+						]}
+					/>
+				{/if}
+			</DataTableToolbar>
+		{/snippet}
+	</DataTable>
 </div>

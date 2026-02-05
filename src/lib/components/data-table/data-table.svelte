@@ -15,12 +15,13 @@
 
 	interface Props {
 		table: TanstackTable<TData>;
-		actionBar?: Snippet<[TanstackTable<TData>]>;
-		children?: Snippet<[TanstackTable<TData>]>;
+		toolbar?: Snippet<[{ table: TanstackTable<TData> }]>;
+		actionBar?: Snippet<[{ table: TanstackTable<TData> }]>;
+		children?: Snippet<[{ table: TanstackTable<TData> }]>;
 		class?: string;
 	}
 
-	let { table, actionBar, children, class: className }: Props = $props();
+	let { table, toolbar, actionBar, children, class: className }: Props = $props();
 
 	const headerGroups = $derived(table.getHeaderGroups());
 	const rowModel = $derived(table.getRowModel());
@@ -29,8 +30,11 @@
 </script>
 
 <div class={cn('flex w-full flex-col gap-2.5 overflow-auto', className)}>
+	{#if toolbar}
+		{@render toolbar({ table })}
+	{/if}
 	{#if children}
-		{@render children(table)}
+		{@render children({ table })}
 	{/if}
 	<div class="overflow-hidden rounded-md border">
 		<Table>
@@ -79,7 +83,7 @@
 	<div class="flex flex-col gap-2.5">
 		<DataTablePagination {table} />
 		{#if actionBar && filteredSelectedRows.length > 0}
-			{@render actionBar(table)}
+			{@render actionBar({ table })}
 		{/if}
 	</div>
 </div>
