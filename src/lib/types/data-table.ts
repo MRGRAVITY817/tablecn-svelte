@@ -46,7 +46,7 @@ export interface ExtendedColumnSort<TData> extends Omit<ColumnSort, 'id'> {
 export interface FilterItem {
 	id: string;
 	operator: FilterOperator;
-	value: string | number | Date | string[] | [number, number] | null;
+	value?: string | number | Date | string[] | [number, number] | null;
 }
 
 export interface ExtendedColumnFilter<TData> extends FilterItem {
