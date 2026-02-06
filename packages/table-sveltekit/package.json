@@ -1,0 +1,26 @@
+{
+	"name": "@tablecn/table-sveltekit",
+	"version": "0.0.1",
+	"private": true,
+	"type": "module",
+	"svelte": "./src/index.ts",
+	"types": "./src/index.ts",
+	"exports": {
+		".": {
+			"types": "./src/index.ts",
+			"svelte": "./src/index.ts",
+			"default": "./src/index.ts"
+		}
+	},
+	"files": [
+		"src"
+	],
+	"dependencies": {
+		"@tablecn/table": "workspace:*",
+		"@tanstack/svelte-table": "^9.0.0-alpha.10"
+	},
+	"peerDependencies": {
+		"@sveltejs/kit": "^2.50.1",
+		"svelte": "^5.48.2"
+	}
+}

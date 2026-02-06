@@ -1,0 +1,27 @@
+{
+	"name": "tablecn-storybook",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "storybook dev -p 6006",
+		"build": "storybook build",
+		"storybook": "storybook dev -p 6006"
+	},
+	"dependencies": {
+		"@tablecn/table": "workspace:*"
+	},
+	"devDependencies": {
+		"@storybook/addon-essentials": "latest",
+		"@storybook/addon-interactions": "latest",
+		"@storybook/blocks": "latest",
+		"@storybook/svelte-vite": "latest",
+		"@tailwindcss/vite": "^4.1.18",
+		"@sveltejs/vite-plugin-svelte": "^6.2.4",
+		"autoprefixer": "^10.4.24",
+		"postcss": "^8.5.6",
+		"storybook": "latest",
+		"svelte": "^5.48.2",
+		"tailwindcss": "^4.1.18",
+		"vite": "^7.3.1"
+	}
+}
