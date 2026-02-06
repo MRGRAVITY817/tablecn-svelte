@@ -1,4 +1,3 @@
-import js from '@eslint/js';
 import ts from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
 import svelte from 'eslint-plugin-svelte';
@@ -7,7 +6,6 @@ import { fileURLToPath } from 'node:url';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-	js.configs.recommended,
 	{
 		files: ['**/*.js', '**/*.ts'],
 		languageOptions: {
@@ -33,21 +31,17 @@ export default [
 			'@typescript-eslint/no-explicit-any': 'warn'
 		}
 	},
+	...svelte.configs['flat/recommended'],
 	{
 		files: ['**/*.svelte'],
 		languageOptions: {
-			parser: svelte.parser,
 			parserOptions: {
 				parser: tsParser,
 				sourceType: 'module',
 				ecmaVersion: 2022
 			}
 		},
-		plugins: {
-			svelte
-		},
 		rules: {
-			...svelte.configs.recommended.rules,
 			'svelte/no-at-html-tags': 'warn'
 		}
 	},
