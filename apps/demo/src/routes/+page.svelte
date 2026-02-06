@@ -1,19 +1,18 @@
 <script lang="ts">
 	import {
-		Badge,
-		Button,
-		Checkbox,
-		DataTable,
-		DataTableColumnHeader,
-		DataTableDateFilter,
-		DataTableFacetedFilter,
-		DataTableRangeFilter,
-		DataTableSortList,
-		DataTableToolbar,
-		DropdownMenu,
-		Popover,
-		formatDate
-	} from '@tablecn/table';
+	Badge,
+	Checkbox,
+	DataTable,
+	DataTableAdvancedToolbar,
+	DataTableColumnHeader,
+	DataTableDateFilter,
+	DataTableFacetedFilter,
+	DataTableRangeFilter,
+	DropdownMenu,
+	Input,
+	Popover,
+	formatDate
+} from '@tablecn/table';
 	import { useDataTable } from '@tablecn/table-sveltekit';
 	import type { Task } from '$lib/db/schema';
 	import type { CellContext, ColumnDef, HeaderContext } from '@tanstack/svelte-table';
@@ -22,14 +21,13 @@
 		Circle,
 		CheckCircle2,
 		XCircle,
-		ArrowUp,
 		ArrowRight,
+		ArrowUp,
 		ArrowDown,
 		MoreHorizontal,
 		Pencil,
 		Trash2,
 		Copy,
-		ListFilter,
 		Command,
 		Timer,
 		Calendar as CalendarIcon
@@ -48,9 +46,6 @@
 	}
 
 	let { data }: Props = $props();
-
-	// Filter mode toggle state
-	let filterMode: 'advanced' | 'command' = $state('advanced');
 
 	// Status options with icons
 	const statusOptions = [
@@ -73,6 +68,17 @@
 		feature: 'default',
 		enhancement: 'secondary',
 		documentation: 'outline'
+	};
+
+	const columnClasses: Record<string, string> = {
+		select: 'w-[52px]',
+		code: 'w-[120px]',
+		title: 'min-w-[320px]',
+		status: 'w-[150px]',
+		priority: 'w-[140px]',
+		estimatedHours: 'w-[140px]',
+		createdAt: 'w-[180px]',
+		actions: 'w-[64px] text-right'
 	};
 
 	// Define columns
@@ -238,10 +244,15 @@
 	const sortCount = $derived(table.getState().sorting.length);
 </script>
 
-<div class="min-h-screen bg-background">
+<div class="relative min-h-screen overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50">
+	<div class="pointer-events-none absolute inset-0">
+		<div class="absolute -left-24 top-10 h-72 w-72 rounded-full bg-primary/10 blur-[120px]"></div>
+		<div class="absolute right-0 top-32 h-80 w-80 rounded-full bg-sky-200/60 blur-[140px]"></div>
+	</div>
+
 	<!-- Header Navigation -->
-	<header class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-		<div class="container flex h-14 items-center">
+	<header class="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/70">
+		<div class="mx-auto flex h-14 max-w-6xl items-center px-6">
 			<div class="mr-4 flex">
 				<a href="/" aria-label="Home" class="mr-6 flex items-center space-x-2">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
@@ -251,8 +262,8 @@
 					</svg>
 				</a>
 				<nav class="flex items-center space-x-6 text-sm font-medium">
-					<a href="/data-grid" class="text-foreground/60 transition-colors hover:text-foreground">Data Grid</a>
-					<a href="https://diceui.com/docs/components/data-table" class="text-foreground/60 transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer">Docs</a>
+					<a href="/data-grid" class="text-foreground/70 transition-colors hover:text-foreground">Data Grid</a>
+					<a href="https://diceui.com/docs/components/data-table" class="text-foreground/70 transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer">Docs</a>
 				</nav>
 			</div>
 			<div class="flex flex-1 items-center justify-end space-x-2">
@@ -265,106 +276,101 @@
 		</div>
 	</header>
 
-	<main class="container mx-auto py-10">
-		<!-- Filter Mode Toggle -->
-		<div class="mb-4 flex items-center gap-2">
-			<div class="inline-flex rounded-lg border bg-muted p-1" role="group">
-				<button
-					type="button"
-					class="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-colors {filterMode === 'advanced' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'}"
-					onclick={() => (filterMode = 'advanced')}
-				>
-					<ListFilter class="h-4 w-4" />
-					Advanced filters
-				</button>
-				<button
-					type="button"
-					class="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-colors {filterMode === 'command' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'}"
-					onclick={() => (filterMode = 'command')}
-				>
-					<Command class="h-4 w-4" />
-					Command filters
-				</button>
+	<main class="relative mx-auto max-w-6xl px-6 py-12 space-y-6">
+		<section class="space-y-4">
+			<p class="text-xs font-semibold uppercase tracking-[0.2em] text-primary/70">Data Grid</p>
+			<div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+				<div class="space-y-2">
+					<h1 class="text-3xl font-semibold tracking-tight">TableCN data grid demo</h1>
+					<p class="max-w-3xl text-muted-foreground">
+						Interactive grid with filters, multi-column sorting, pagination, view options, and command palette—exactly like the live experience on tablecn.com.
+					</p>
+				</div>
+				<div class="flex items-center gap-2">
+					<a
+						href="https://diceui.com/docs/components/data-table"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 rounded-lg border bg-white/70 px-3 py-2 text-sm font-medium text-foreground shadow-sm transition hover:bg-accent hover:text-accent-foreground"
+					>
+						<Command class="h-4 w-4" />
+						View docs
+					</a>
+					<a
+						href="https://github.com/sadmann7/tablecn"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 rounded-lg bg-foreground px-3 py-2 text-sm font-medium text-white shadow-sm transition hover:opacity-90"
+					>
+						<ArrowRight class="h-4 w-4" />
+						GitHub
+					</a>
+				</div>
 			</div>
-		</div>
+		</section>
 
-		<DataTable {table}>
-			{#snippet toolbar({ table: tbl })}
-				<DataTableToolbar
-					table={tbl}
-					filterableColumns={[{ id: 'title', title: 'Title', placeholder: 'Search titles...' }]}
-				>
-					<DataTableFacetedFilter
-						column={tbl.getColumn('status')}
-						title="Status"
-						options={statusOptions}
-					/>
-					<DataTableFacetedFilter
-						column={tbl.getColumn('priority')}
-						title="Priority"
-						options={priorityOptions}
-					/>
-					<!-- Est. Hours filter button -->
-					{@const estHoursColumn = tbl.getColumn('estimatedHours')}
-					{#if estHoursColumn}
-						<Popover.Root>
-							<Popover.Trigger class="inline-flex h-8 items-center justify-center gap-2 whitespace-nowrap rounded-md border border-dashed border-input bg-background px-3 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
-								<Timer class="h-4 w-4" />
-								Est. Hours
-							</Popover.Trigger>
-							<Popover.Content class="w-auto p-4" align="start">
-								<DataTableRangeFilter column={estHoursColumn} showLabel />
-							</Popover.Content>
-						</Popover.Root>
-					{/if}
-					<!-- Created At filter button -->
-					{@const createdAtColumn = tbl.getColumn('createdAt')}
-					{#if createdAtColumn}
-						<Popover.Root>
-							<Popover.Trigger class="inline-flex h-8 items-center justify-center gap-2 whitespace-nowrap rounded-md border border-dashed border-input bg-background px-3 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
-								<CalendarIcon class="h-4 w-4" />
-								Created At
-							</Popover.Trigger>
-							<Popover.Content class="w-auto p-4" align="start">
-								<DataTableDateFilter column={createdAtColumn} showLabel />
-							</Popover.Content>
-						</Popover.Root>
-					{/if}
-					<!-- Sort button with count -->
-					{#if sortCount > 0}
-						<DropdownMenu.Root>
-							<DropdownMenu.Trigger class="inline-flex h-8 items-center justify-center gap-2 whitespace-nowrap rounded-md border border-input bg-background px-3 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
-								<ArrowUp class="h-4 w-4" />
-								Sort
-								<Badge variant="secondary" class="rounded-sm px-1 font-normal">
-									{sortCount}
-								</Badge>
-							</DropdownMenu.Trigger>
-							<DropdownMenu.Content align="start" class="w-48">
-								{#each tbl.getState().sorting as sort}
-									<DropdownMenu.Item class="flex items-center justify-between">
-										<span class="capitalize">{sort.id.replace(/([A-Z])/g, ' $1').trim()}</span>
-										<span class="text-xs text-muted-foreground">{sort.desc ? 'desc' : 'asc'}</span>
-									</DropdownMenu.Item>
-								{/each}
-								<DropdownMenu.Separator />
-								<DropdownMenu.Item onclick={() => tbl.resetSorting()}>
-									Clear sorting
-								</DropdownMenu.Item>
-							</DropdownMenu.Content>
-						</DropdownMenu.Root>
-					{/if}
-				</DataTableToolbar>
-			{/snippet}
+		<section class="relative overflow-hidden rounded-2xl border bg-white/90 shadow-xl ring-1 ring-black/5">
+			<div class="absolute inset-x-12 top-0 h-32 rounded-b-full bg-gradient-to-r from-primary/10 via-sky-100/60 to-transparent blur-3xl"></div>
+			<div class="relative p-4 md:p-6">
+				<DataTable class="gap-6" {table}>
+					{#snippet toolbar({ table: tbl })}
+						<DataTableAdvancedToolbar table={tbl}>
+							{@const titleColumn = tbl.getColumn('title')}
+							{@const estHoursColumn = tbl.getColumn('estimatedHours')}
+							{@const createdAtColumn = tbl.getColumn('createdAt')}
+							<div class="flex flex-wrap items-center gap-2">
+								{#if titleColumn}
+									<Input
+										class="h-9 w-[220px] md:w-72"
+										placeholder="Search titles..."
+										value={(titleColumn.getFilterValue() ?? '') as string}
+										oninput={(e) => titleColumn.setFilterValue(e.currentTarget.value)}
+									/>
+								{/if}
+								<DataTableFacetedFilter
+									column={tbl.getColumn('status')}
+									title="Status"
+									options={statusOptions}
+								/>
+								<DataTableFacetedFilter
+									column={tbl.getColumn('priority')}
+									title="Priority"
+									options={priorityOptions}
+								/>
+								{#if estHoursColumn}
+									<Popover.Root>
+										<Popover.Trigger class="inline-flex h-9 items-center justify-center gap-2 whitespace-nowrap rounded-md border border-dashed border-input bg-background px-3 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
+											<Timer class="h-4 w-4" />
+											Est. Hours
+										</Popover.Trigger>
+										<Popover.Content class="w-auto p-4" align="start">
+											<DataTableRangeFilter column={estHoursColumn} showLabel />
+										</Popover.Content>
+									</Popover.Root>
+								{/if}
+								{#if createdAtColumn}
+									<Popover.Root>
+										<Popover.Trigger class="inline-flex h-9 items-center justify-center gap-2 whitespace-nowrap rounded-md border border-dashed border-input bg-background px-3 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
+											<CalendarIcon class="h-4 w-4" />
+											Created At
+										</Popover.Trigger>
+										<Popover.Content class="w-auto p-4" align="start">
+											<DataTableDateFilter column={createdAtColumn} showLabel />
+										</Popover.Content>
+									</Popover.Root>
+								{/if}
+							</div>
+						</DataTableAdvancedToolbar>
+					{/snippet}
 
-			{#snippet children({ table: tbl })}
-				<div class="overflow-hidden rounded-md border">
-					<table class="w-full caption-bottom text-sm">
+					{#snippet children({ table: tbl })}
+						<div class="overflow-hidden rounded-xl border bg-card">
+							<table class="w-full table-fixed caption-bottom text-sm">
 						<thead class="border-b bg-muted/50">
 							{#each tbl.getHeaderGroups() as headerGroup}
 								<tr>
 									{#each headerGroup.headers as header}
-										<th class="h-10 px-4 text-left align-middle font-medium text-muted-foreground">
+										<th class={`h-10 px-4 text-left align-middle font-medium text-muted-foreground ${columnClasses[header.column.id] ?? ''}`}>
 											{#if header.id === 'select'}
 												{@const headerDef = header.column.columnDef.header}
 												{#if typeof headerDef === 'function'}
@@ -404,7 +410,7 @@
 							{#each tbl.getRowModel().rows as row}
 								<tr class="border-b transition-colors hover:bg-muted/50 {row.getIsSelected() ? 'bg-muted' : ''}">
 									{#each row.getVisibleCells() as cell}
-										<td class="p-4 align-middle">
+										<td class={`p-4 align-middle ${columnClasses[cell.column.id] ?? ''}`}>
 											{#if cell.column.id === 'select'}
 												{@const cellDef = cell.column.columnDef.cell}
 												{#if typeof cellDef === 'function'}
@@ -426,7 +432,7 @@
 															<Badge variant={labelVariants[result.label] || 'outline'}>
 																{result.label}
 															</Badge>
-															<span class="max-w-[400px] truncate font-medium">{result.title}</span>
+															<span class="truncate font-medium">{result.title}</span>
 														</div>
 													{/if}
 												{/if}
@@ -513,6 +519,8 @@
 					</table>
 				</div>
 			{/snippet}
-		</DataTable>
+				</DataTable>
+			</div>
+		</section>
 	</main>
 </div>
